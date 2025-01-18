@@ -23,7 +23,7 @@ public class RandomStock {
     public List<Stock> assignRandomStocks(Long userId) {
         // Shuffle and pick 5 random stocks
         Collections.shuffle(availableStocks);
-        List<String> selectedStocks = availableStocks.subList(0, 2);
+        List<String> selectedStocks = availableStocks.subList(0, 5);
 
         // Save selected stocks to the database
         selectedStocks.forEach(ticker -> {

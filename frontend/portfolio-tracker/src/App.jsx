@@ -6,10 +6,22 @@ import AddRandomStocksButton from "./components/AddRandomStocksButton";
 
 const App = () => {
   const [refresh, setRefresh] = useState(false);
+  const [stockToEdit, setStockToEdit] = useState(null); // State to hold the stock to edit
 
   // Toggle the refresh state to re-render components
   const handleRefresh = () => {
     setRefresh(!refresh);
+  };
+
+  // Handle selecting a stock to edit
+  const handleEdit = (stock) => {
+    setStockToEdit(stock);
+  };
+
+  // Handle when editing is complete
+  const handleEditComplete = () => {
+    setStockToEdit(null); // Clear the stock to edit
+    handleRefresh(); // Refresh the stock list
   };
 
   return (
@@ -22,11 +34,20 @@ const App = () => {
       {/* Button to add random stocks */}
       <AddRandomStocksButton onStocksAdded={handleRefresh} />
 
-      {/* Form to add or edit stocks */}
-      <StockForm onStockAdded={handleRefresh} />
+      {/* Form to add or edit stock */}
+      <StockForm
+        key={stockToEdit ? stockToEdit.id : "new"}
+        onStockAdded={handleRefresh}
+        stockToEdit={stockToEdit} // Pass the stock to edit
+        onEditComplete={handleEditComplete} // Handle edit completion
+      />
 
-      {/* Table displaying current stocks */}
-      <StockList key={refresh} onStockUpdated={handleRefresh} />
+      {/* List of stocks with Edit and Delete actions */}
+      <StockList
+        key={refresh}
+        onStockUpdated={handleRefresh}
+        onEdit={handleEdit} // Pass the function to handle edits
+      />
     </div>
   );
 };

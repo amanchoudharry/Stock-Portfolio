@@ -18,7 +18,6 @@ public class Stock {
     private int quantity;
     private Double currPrice;
     private Double buyPrice;
-
     private LocalDateTime lastUpdated;
     private LocalDateTime createdTime;
 

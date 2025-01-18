@@ -24,6 +24,8 @@ public class StockService {
 
     // Add a new stock
     public Stock addStock(Stock stock) {
+        stock.setCreatedTime(LocalDateTime.now());
+        stock.setLastUpdated(LocalDateTime.now());
         return stockRepository.save(stock);
     }
 
@@ -46,6 +48,8 @@ public class StockService {
         existingStock.setName(updatedStock.getName());
         existingStock.setTicker(updatedStock.getTicker());
         existingStock.setQuantity(updatedStock.getQuantity());
+        existingStock.setBuyPrice(updatedStock.getBuyPrice());
+        existingStock.setLastUpdated(LocalDateTime.now());
         return stockRepository.save(existingStock);
     }
 

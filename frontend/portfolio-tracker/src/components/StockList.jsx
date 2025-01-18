@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const StockList = ({ onStockUpdated }) => {
+const StockList = ({ onStockUpdated, onEdit }) => {
   const [stocks, setStocks] = useState([]);
 
   useEffect(() => {
@@ -11,7 +11,6 @@ const StockList = ({ onStockUpdated }) => {
   const fetchStocks = async () => {
     try {
       const response = await axios.get("http://localhost:8080/api/stocks");
-      console.log(response.data)
       setStocks(response.data);
     } catch (error) {
       console.error("Error fetching stocks:", error);
@@ -51,7 +50,7 @@ const StockList = ({ onStockUpdated }) => {
           </thead>
           <tbody>
             {stocks.map((stock) => (
-              <tr key={stock.ticker}>
+              <tr key={stock.id}>
                 <td className="border px-4 py-2">{stock.name}</td>
                 <td className="border px-4 py-2">{stock.ticker}</td>
                 <td className="border px-4 py-2">{stock.quantity}</td>
@@ -66,9 +65,8 @@ const StockList = ({ onStockUpdated }) => {
                   >
                     Delete
                   </button>
-                  {/* Placeholder for Edit functionality */}
                   <button
-                    onClick={() => alert("Edit functionality not implemented yet.")}
+                    onClick={() => onEdit(stock)} // Pass stock to the parent component for editing
                     className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
                   >
                     Edit
