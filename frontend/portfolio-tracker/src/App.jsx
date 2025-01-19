@@ -10,7 +10,7 @@ const App = () => {
 
   // Toggle the refresh state to re-render components
   const handleRefresh = () => {
-    setRefresh(!refresh);
+    setRefresh((prev) => !prev);
   };
 
   // Handle selecting a stock to edit
@@ -29,14 +29,14 @@ const App = () => {
       <h1 className="text-2xl font-bold mb-4">Portfolio Tracker</h1>
 
       {/* Dashboard showing portfolio metrics */}
-      <PortfolioDashboard key={refresh} />
+      <PortfolioDashboard refresh={refresh} />
 
       {/* Button to add random stocks */}
       <AddRandomStocksButton onStocksAdded={handleRefresh} />
 
       {/* Form to add or edit stock */}
       <StockForm
-        key={stockToEdit ? stockToEdit.id : "new"}
+        key={stockToEdit ? `edit-${stockToEdit.id}` : `new-${Date.now()}`}
         onStockAdded={handleRefresh}
         stockToEdit={stockToEdit} // Pass the stock to edit
         onEditComplete={handleEditComplete} // Handle edit completion
@@ -44,7 +44,7 @@ const App = () => {
 
       {/* List of stocks with Edit and Delete actions */}
       <StockList
-        key={refresh}
+        refresh={refresh}
         onStockUpdated={handleRefresh}
         onEdit={handleEdit} // Pass the function to handle edits
       />
