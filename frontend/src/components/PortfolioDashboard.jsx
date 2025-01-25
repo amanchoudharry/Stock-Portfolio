@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { PiggyBank } from 'lucide-react';
+import { ChartNoAxesCombined } from 'lucide-react';
+import { Calculator } from 'lucide-react';
 
-const PortfolioDashboard = () => {
+
+const PortfolioDashboard = ({refresh}) => {
   const [portfolioValue, setPortfolioValue] = useState(0);
   const [stockCount, setStockCount] = useState(0);
   const [topStock, setTopStock] = useState(null);
 
   useEffect(() => {
     fetchPortfolioMetrics();
-  }, []);
+  }, [refresh]);
 
   const fetchPortfolioMetrics = async () => {
     try {
@@ -37,14 +42,31 @@ const PortfolioDashboard = () => {
   };
 
   return (
-    <div className="bg-gray-100 p-4 rounded shadow mb-4">
-      <h2 className="text-xl font-bold">Portfolio Dashboard</h2>
-      <p className="text-lg">Total Portfolio Value: ${portfolioValue.toFixed(2)}</p>
-      <p className="text-lg">Total Stocks: {stockCount}</p>
+    <div className="grid gap-4 grid-cols-1 md:grid-cols-3 p-4 w-3/4">
+      {/* Portfolio Value Card */}
+      <Card>
+        <CardHeader>
+          <CardDescription><PiggyBank />Portfolio Value</CardDescription>
+          <CardTitle>${portfolioValue.toFixed(2)}</CardTitle>
+        </CardHeader>
+      </Card>
+
+      {/* Total Stocks Card */}
+      <Card>
+        <CardHeader>
+          <CardDescription><Calculator /> Stocks</CardDescription>
+          <CardTitle>{stockCount}</CardTitle>
+        </CardHeader>
+      </Card>
+
+      {/* Top-Performing Stock Card */}
       {topStock && (
-        <p className="text-lg">
-          Top-Performing Stock: {topStock.name} (${topStock.currPrice.toFixed(2)})
-        </p>
+        <Card>
+          <CardHeader>
+            <CardDescription><ChartNoAxesCombined />Top-Performing Stock</CardDescription>
+            <CardTitle>{topStock.name} (${topStock.currPrice.toFixed(2)})</CardTitle>
+          </CardHeader>
+        </Card>
       )}
     </div>
   );

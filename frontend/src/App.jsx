@@ -3,6 +3,7 @@ import PortfolioDashboard from "./components/PortfolioDashboard";
 import StockList from "./components/StockList";
 import StockForm from "./components/StockForm";
 import AddRandomStocksButton from "./components/AddRandomStocksButton";
+import { Toaster } from "@/components/ui/toaster"
 
 const App = () => {
   const [refresh, setRefresh] = useState(false);
@@ -25,8 +26,8 @@ const App = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Portfolio Tracker</h1>
+    <div className="container mx-auto p-4 bg-gray-800">
+      <h1 className="text-2xl text-gray-100 font-bold mb-4">Portfolio Tracker</h1>
 
       {/* Dashboard showing portfolio metrics */}
       <PortfolioDashboard refresh={refresh} />
@@ -48,6 +49,7 @@ const App = () => {
         onStockUpdated={handleRefresh}
         onEdit={handleEdit} // Pass the function to handle edits
       />
+      <Toaster />
     </div>
   );
 };

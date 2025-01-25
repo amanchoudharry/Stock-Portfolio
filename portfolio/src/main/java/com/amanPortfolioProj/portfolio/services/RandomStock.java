@@ -18,7 +18,12 @@ public class RandomStock {
     @Autowired
     private StockPriceService stockPriceService;
 
-    private final List<String> availableStocks = Arrays.asList("IBM", "AAPL", "GOOGL", "MSFT", "TSLA");
+    private final List<String> availableStocks = Arrays.asList(
+            "AAPL", "GOOGL", "MSFT", "TSLA", "AMZN", "META",
+            "NFLX", "NVDA", "ORCL", "INTC", "ADBE", "CSCO",
+            "PYPL", "SNAP", "KO"
+    );
+
 
     public List<Stock> assignRandomStocks(Long userId) {
         // Shuffle and pick 5 random stocks
@@ -28,12 +33,14 @@ public class RandomStock {
         // Save selected stocks to the database
         selectedStocks.forEach(ticker -> {
             Stock stock = new Stock();
+            Double fetchedPrice = stockPriceService.getStockPrice(ticker); //calculated current price
             stock.setTicker(ticker);
-            stock.setName(getCompanyName(ticker)); // Add a helper to fetch the name
+            stock.setName(getCompanyName(ticker)); // Added a helper to fetch the name
             stock.setQuantity(1); // Fixed quantity for assignment
-            stock.setCurrPrice(0.0); // Default or calculated current price
-            stock.setBuyPrice(stockPriceService.getStockPrice(ticker));
+            stock.setCurrPrice(fetchedPrice);
+            stock.setBuyPrice(fetchedPrice);
             stock.setCreatedTime(LocalDateTime.now());
+            stock.setLastUpdated(LocalDateTime.now());
             stockRepository.save(stock);
         });
 
@@ -43,12 +50,21 @@ public class RandomStock {
     private String getCompanyName(String ticker) {
         // Map ticker to company name
         switch (ticker) {
-            case "IBM": return "IBM";
-            case "AAPL": return "Apple";
-            case "GOOGL": return "Google";
-            case "MSFT": return "Microsoft";
-            case "TSLA": return "Tesla";
-            case "AMZN": return "Amazon";
+            case "AAPL": return "Apple Inc.";
+            case "GOOGL": return "Alphabet Inc. (Google)";
+            case "MSFT": return "Microsoft Corporation";
+            case "TSLA": return "Tesla, Inc.";
+            case "AMZN": return "Amazon.com, Inc.";
+            case "META": return "Meta Platforms, Inc. (Facebook)";
+            case "NFLX": return "Netflix, Inc.";
+            case "NVDA": return "NVIDIA Corporation";
+            case "ORCL": return "Oracle Corporation";
+            case "INTC": return "Intel Corporation";
+            case "ADBE": return "Adobe Inc.";
+            case "CSCO": return "Cisco Systems, Inc.";
+            case "PYPL": return "PayPal Holdings, Inc.";
+            case "SNAP": return "Snap Inc.";
+            case "KO": return "The Coca-Cola Company";
             default: return "Unknown";
         }
     }
