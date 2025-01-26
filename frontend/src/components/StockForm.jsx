@@ -10,15 +10,24 @@ const StockForm = ({ onStockAdded, onClose }) => {
   const [ticker, setTicker] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [buyPrice, setBuyPrice] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+      setLoading(true);
     const stockData = { name, ticker, quantity, buyPrice: parseFloat(buyPrice) };
+    if (quantity <= 0 || buyPrice <= 0) {
+      toast({
+        title: "Invalid Input",
+        description: "Quantity and Buy Price must be greater than zero.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     try {
       // Add new stock
-      await axios.post("http://localhost:8080/api/stocks", stockData);
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/stocks", stockData`);
       toast({
           title: "Stock Added!",
           description: `${stockData.name} added to your portfolio`,
@@ -33,7 +42,15 @@ const StockForm = ({ onStockAdded, onClose }) => {
       onClose(); // Close modal after adding stock
     } catch (error) {
       console.error("Error adding stock:", error);
+        toast({
+          title: "Error",
+          description: "Failed to add stock. Please try again.",
+          variant: "destructive",
+        });
     }
+ finally {
+    setLoading(false);
+  }
   };
 
   return (
@@ -88,12 +105,8 @@ const StockForm = ({ onStockAdded, onClose }) => {
         >
           Cancel
         </Button>
-        <Button
-          type="submit"
-          variant="secondary"
-          // className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Add Stock
+        <Button type="submit" variant="secondary" disabled={loading}>
+          {loading ? "Adding..." : "Add Stock"}
         </Button>
       </div>
     </form>

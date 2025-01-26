@@ -18,25 +18,30 @@ const COLORS = [
   "#DDA0DD",
 ]
 
-export function PortfolioDistribution() {
+export function PortfolioDistribution({ refresh }) {
   const [stocks, setStocks] = useState([])
   const [portfolioValue, setPortfolioValue] = useState(0)
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
+
+      setLoading(true);
       try {
-        const stocksResponse = await axios.get("http://localhost:8080/api/stocks")
+        const stocksResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/stocks`)
         setStocks(stocksResponse.data)
 
-        const valueResponse = await axios.get("http://localhost:8080/api/stocks/value")
+        const valueResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/stocks/value`)
         setPortfolioValue(valueResponse.data)
       } catch (error) {
         console.error("Error fetching data:", error)
-      }
-    }
+      }finally {
+             setLoading(false);
+           }
+       };
 
     fetchData()
-  }, [])
+  }, [refresh])
 
   const chartData = stocks.map((stock) => ({
     name: stock.name,
@@ -73,12 +78,15 @@ export function PortfolioDistribution() {
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader>
-        <CardTitle>Portfolio Distribution</CardTitle>
-        <CardDescription>Stock distribution by value</CardDescription>
-      </CardHeader>
-      <CardContent>
+  <Card className="w-full max-w-md mx-auto">
+    <CardHeader>
+      <CardTitle>Portfolio Distribution</CardTitle>
+      <CardDescription>Stock distribution by value</CardDescription>
+    </CardHeader>
+    <CardContent>
+      {loading ? (
+        <div className="flex justify-center items-center h-[400px]">Loading...</div>
+      ) : (
         <div className="h-[400px]">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
@@ -92,8 +100,9 @@ export function PortfolioDistribution() {
             </PieChart>
           </ResponsiveContainer>
         </div>
-      </CardContent>
-    </Card>
+      )}
+    </CardContent>
+  </Card>
   )
 }
 

@@ -10,17 +10,19 @@ export default function PortfolioDashboard({ refresh }) {
   const [portfolioValue, setPortfolioValue] = useState(0)
   const [stockCount, setStockCount] = useState(0)
   const [topStock, setTopStock] = useState(null)
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchPortfolioMetrics()
-  }, [])
+  }, [refresh])
 
   const fetchPortfolioMetrics = async () => {
+        setLoading(true);
     try {
-      const valueResponse = await axios.get("http://localhost:8080/api/stocks/value")
+      const valueResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/stocks/value`)
       setPortfolioValue(valueResponse.data)
 
-      const stocksResponse = await axios.get("http://localhost:8080/api/stocks")
+      const stocksResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/stocks`)
       const stocks = stocksResponse.data
 
       setStockCount(stocks.length)
@@ -31,6 +33,8 @@ export default function PortfolioDashboard({ refresh }) {
       }
     } catch (error) {
       console.error("Error fetching portfolio metrics:", error)
+    }finally {
+    setLoading(false);
     }
   }
 
@@ -77,7 +81,7 @@ export default function PortfolioDashboard({ refresh }) {
       </div>
       {/* Right Column - Portfolio Distribution */}
       <div className="row-span-3">
-          <PortfolioDistribution />
+          <PortfolioDistribution refresh={refresh} />
       </div>
 
     </div>
