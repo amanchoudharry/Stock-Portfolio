@@ -4,6 +4,7 @@ import StockList from "./components/StockList";
 import StockForm from "./components/StockForm";
 import AddRandomStocksButton from "./components/AddRandomStocksButton";
 import { Toaster } from "@/components/ui/toaster"
+import Hero from "./components/Hero"
 
 const App = () => {
   const [refresh, setRefresh] = useState(false);
@@ -26,31 +27,31 @@ const App = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 bg-gray-800">
-      <h1 className="text-2xl text-gray-100 font-bold mb-4">Portfolio Tracker</h1>
+      <div className="bg-gray-800">
+     <Hero />
+     <div className="container mx-auto my-2 p-4 bg-gray-800">
+           <h1 className="text-2xl text-gray-100 font-bold mb-4">Portfolio Metrics</h1>
 
-      {/* Dashboard showing portfolio metrics */}
-      <PortfolioDashboard refresh={refresh} />
+           {/* Dashboard showing portfolio metrics */}
+           <PortfolioDashboard refresh={refresh} />
+             <div class="flex flex-col md:flex-row items-center justify-start gap-4 p-4 mt-4">
+               <AddRandomStocksButton onStocksAdded={handleRefresh}  />
 
-      {/* Button to add random stocks */}
-      <AddRandomStocksButton onStocksAdded={handleRefresh} />
-
-      {/* Form to add or edit stock */}
-      <StockForm
-        key={stockToEdit ? `edit-${stockToEdit.id}` : `new-${Date.now()}`}
-        onStockAdded={handleRefresh}
-        stockToEdit={stockToEdit} // Pass the stock to edit
-        onEditComplete={handleEditComplete} // Handle edit completion
-      />
-
-      {/* List of stocks with Edit and Delete actions */}
-      <StockList
-        refresh={refresh}
-        onStockUpdated={handleRefresh}
-        onEdit={handleEdit} // Pass the function to handle edits
-      />
-      <Toaster />
-    </div>
+               <StockForm
+                 key={stockToEdit ? `edit-${stockToEdit.id}` : `new-${Date.now()}`}
+                 onStockAdded={handleRefresh}
+                 stockToEdit={stockToEdit} // Pass the stock to edit
+                 onEditComplete={handleEditComplete} // Handle edit completion
+               />
+             </div>
+           <StockList
+             refresh={refresh}
+             onStockUpdated={handleRefresh}
+             onEdit={handleEdit} // Pass the function to handle edits
+           />
+           <Toaster />
+         </div>
+     </div>
   );
 };
 

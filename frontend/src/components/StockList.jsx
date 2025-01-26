@@ -97,30 +97,35 @@ const StockList = ({ refresh, onStockUpdated }) => {
       {stocks.length === 0 ? (
         <p>No stocks available. Add some to get started!</p>
       ) : (
-        <table className="w-full border-collapse border border-gray-300">
+        <table className="w-full border-collapse">
           <thead>
-            <tr>
-              <th className="border px-4 py-2">Name</th>
-              <th className="border px-4 py-2">Ticker</th>
-              <th className="border px-4 py-2">Quantity</th>
-              <th className="border px-4 py-2">Buy Price</th>
-              <th className="border px-4 py-2">Value</th>
-              <th className="border px-4 py-2">Actions</th>
+            <tr className="bg-gray-700 text-gray-300">
+              <th className="px-4 py-2">Name</th>
+              <th className="px-4 py-2">Ticker</th>
+              <th className="px-4 py-2">Quantity</th>
+              <th className="px-4 py-2">Buy Price</th>
+              <th className="px-4 py-2">Value</th>
+              <th className="px-4 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {stocks.map((stock) => (
-              <tr key={stock.id}>
-                <td className="border px-4 py-2">{stock.name}</td>
-                <td className="border px-4 py-2">{stock.ticker}</td>
-                <td className="border px-4 py-2">{stock.quantity}</td>
-                <td className="border px-4 py-2">${stock.buyPrice}</td>
-                <td className="border px-4 py-2">
+            {stocks.map((stock, index) => (
+              <tr
+                key={stock.id}
+                className={`${
+                  index % 2 === 0 ? "bg-gray-800" : "bg-gray-700"
+                } hover:bg-gray-600 hover:scale-105 hover:shadow-lg transition duration-200 ease-in-out transform text-gray-200`}
+              >
+                <td className="px-4 py-2">{stock.name}</td>
+                <td className="px-4 py-2">{stock.ticker}</td>
+                <td className="px-4 py-2">{stock.quantity}</td>
+                <td className="px-4 py-2">${stock.buyPrice}</td>
+                <td className="px-4 py-2">
                   ${stock.currPrice && stock.currPrice > 0 ? stock.currPrice.toFixed(2) : "Fetching..."}
                 </td>
-                <td className="border py-2 px-1">
+                <td className="py-2 px-1">
                   <div className="flex justify-center space-x-2">
-                    <AlertDialog >
+                    <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Button
                           variant="destructive"
@@ -133,7 +138,7 @@ const StockList = ({ refresh, onStockUpdated }) => {
                         <AlertDialogHeader>
                           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                           <AlertDialogDescription className="text-gray-300">
-                            This action cannot be undone. This will permanently delete {" "}
+                            This action cannot be undone. This will permanently delete{" "}
                             <strong>{stock.name}</strong>
                           </AlertDialogDescription>
                         </AlertDialogHeader>
@@ -145,10 +150,7 @@ const StockList = ({ refresh, onStockUpdated }) => {
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
-                    <Button
-                      variant="secondary"
-                      onClick={() => handleEdit(stock)} // Open modal with stock data
-                    >
+                    <Button variant="secondary" onClick={() => handleEdit(stock)}>
                       Edit
                     </Button>
                   </div>
@@ -182,7 +184,7 @@ const EditModal = ({ stock, onClose, onUpdate }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-gray-800 p-8 rounded shadow-lg w-1/3">
+      <div className="bg-gray-800 p-8 rounded shadow-lg w-1/3 ">
         <h2 className="text-xl font-bold mb-4">Edit Stock</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
