@@ -18,11 +18,12 @@ export default function PortfolioDashboard({ refresh }) {
 
   const fetchPortfolioMetrics = async () => {
         setLoading(true);
+
     try {
-      const valueResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/stocks/value`)
+      const valueResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/stocks/value`)
       setPortfolioValue(valueResponse.data)
 
-      const stocksResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/stocks`)
+      const stocksResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/stocks`)
       const stocks = stocksResponse.data
 
       setStockCount(stocks.length)

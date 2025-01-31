@@ -10,9 +10,12 @@ const AddRandomStocksButton = ({ onStocksAdded }) => {
   const [loading, setLoading] = useState(false); // State to track loading
 
   const handleAddStocks = async () => {
+              console.log(import.meta.env.REACT_APP_API_URL);
+              console.log(import.meta.env.VITE_API_URL);
+              console.log("hello");
     setLoading(true); // Set loading to true
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/stocks/random`);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/stocks/random`);
       console.log("Random stocks added:", response.data);
       if (onStocksAdded) {
         onStocksAdded(); // Refresh stock list and portfolio value

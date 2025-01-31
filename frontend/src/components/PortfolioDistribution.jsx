@@ -28,10 +28,10 @@ export function PortfolioDistribution({ refresh }) {
 
       setLoading(true);
       try {
-        const stocksResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/stocks`)
+        const stocksResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/stocks`)
         setStocks(stocksResponse.data)
 
-        const valueResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/stocks/value`)
+        const valueResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/stocks/value`)
         setPortfolioValue(valueResponse.data)
       } catch (error) {
         console.error("Error fetching data:", error)

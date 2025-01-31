@@ -30,7 +30,7 @@ const StockList = ({ refresh, onStockUpdated }) => {
 
   const fetchStocks = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/stocks`);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/stocks`);
       setStocks(response.data);
     } catch (error) {
       console.error("Error fetching stocks:", error);
@@ -44,7 +44,7 @@ const StockList = ({ refresh, onStockUpdated }) => {
   const handleDelete = async () => {
     try {
       if (stockToDelete) {
-        await axios.delete(`${process.env.REACT_APP_API_URL}/api/stocks/${stockToDelete.id}`);
+        await axios.delete(`${import.meta.env.VITE_API_URL}/api/stocks/${stockToDelete.id}`);
         fetchStocks(); // Refresh the stock list
         if (onStockUpdated) onStockUpdated(); // Notify parent component for updates
         toast({
@@ -77,7 +77,7 @@ const StockList = ({ refresh, onStockUpdated }) => {
 
   const handleStockUpdate = async (updatedStock) => {
     try {
-      await axios.put(`${process.env.REACT_APP_API_URL}/api/stocks/${updatedStock.id}`, updatedStock);
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/stocks/${updatedStock.id}`, updatedStock);
       fetchStocks(); // Refresh the stock list
       handleModalClose(); // Close the modal
 
