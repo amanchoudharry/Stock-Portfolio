@@ -27,7 +27,7 @@ const StockForm = ({ onStockAdded, onClose }) => {
 
     try {
       // Add new stock
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/stocks", stockData`);
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/stocks`, stockData);
       toast({
           title: "Stock Added!",
           description: `${stockData.name} added to your portfolio`,
