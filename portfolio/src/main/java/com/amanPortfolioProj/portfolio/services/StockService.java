@@ -24,8 +24,11 @@ public class StockService {
 
     // Add a new stock
     public Stock addStock(Stock stock) {
+        System.out.println(stock);
+//        Double fetchedPrice = stockPriceService.getStockPrice(stock.ticker);
         stock.setCreatedTime(LocalDateTime.now());
         stock.setLastUpdated(LocalDateTime.now());
+//        stock.setCurrPrice(fetchedPrice);
         return stockRepository.save(stock);
     }
 
