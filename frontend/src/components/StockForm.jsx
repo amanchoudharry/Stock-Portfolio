@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/Input"
+import { Input } from "@/components/ui/input"
 import { useToast } from "@/hooks/use-toast"
 
 const StockForm = ({ onStockAdded, onClose }) => {
