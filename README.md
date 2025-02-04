@@ -25,7 +25,7 @@ The Portfolio Tracker is a full-stack web application that helps users manage an
 ### **2. Backend Setup**
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/your-username/portfolio-tracker.git](https://github.com/amanchoudharry/Stock-Portfolio.git)
+   git clone https://github.com/amanchoudharry/Stock-Portfolio.git
    cd Stock-Portfolio/portfolio
    ```
 
